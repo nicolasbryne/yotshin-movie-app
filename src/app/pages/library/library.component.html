@@ -1,0 +1,33 @@
+<div class="breadcrumb-bar">
+  <span (click)="toggleSidebar()" class="menu-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
+  <span>All Libraries</span>
+ 
+  <div class="pull-right action-block">
+  </div>
+
+</div>
+
+<div class="container-fluid">
+	<div class="list-holder">
+		<ul class="list-inline library-wrap">
+			<li class="list-inline-item library-item" *ngFor="let library of libraryList">
+				<div class="library-box">
+					<!-- <div class="type-icon">
+						<span><i class="fa fa-film"></i></span>
+					</div> -->
+					<div class="icon-box">
+						<span><i class="fa fa-film fa-4x"></i></span>
+					</div>
+					<a [routerLink]="['/library', library.ID]"><div class="library-box-overlay"></div></a>
+				</div>
+				<div class="library-info">
+					<span>
+						<h4>{{library.name}}</h4>
+					</span>
+				</div>
+			</li>
+
+		</ul>
+	</div>
+
+</div>

@@ -1,0 +1,27 @@
+<!--<div #search class="nav-search-right float-md-right">-->
+    <div class="nav-search-container">
+        <div class="search-wrapper" [class.show]="searchExpand">
+            <input [formControl]="searchTerm" #searchInput class="search" placeholder="Search..." (focus)="searchnow()" />
+            <a (click)="searchToggle()" class="search-btn nav-animate-btn float-md-right"><i class="fa fa-search"></i></a>
+            <a (click)="searchClear()" [hidden]="!searchExpand" class="search-btn search-clear-btn"><i class="fa fa-times-circle"></i></a>
+        </div>
+        <div class="search-result-holder dark-scrollbar" *ngIf="searchResults.length">
+            <ul class="search-list">
+                <a [routerLink]="['/discover/movie/detail', result._id]" *ngFor="let result of searchResults" (click)="searchBlur()">
+                    <li class="search-list-item">
+                        <div class="flexbox">
+                            <div class="search-list-img-container">
+                                <div class="search-list-image" [style.background-image]="'url('+result.poster+')'"></div>
+                            </div>
+                            <div class="search-list-title">
+                                <span>{{result.title}}</span><br>
+                                <span class="search-list-year">{{result.releasedDate || result.fad | date:'y'}}</span>
+                            </div>
+                        </div>
+                    </li>
+                </a>
+                
+            </ul>
+        </div>
+    </div>
+<!--</div>-->

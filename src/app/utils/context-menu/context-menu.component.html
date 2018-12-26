@@ -1,0 +1,16 @@
+<div #context class="context hide"> 
+  <div class="d-inline-block dropdown-panel">
+    <div #contextmenu class="context-menu hide">
+      <li class="dropdown-item" (click)="actionHandler('EDIT')">Edit</li>
+      <li class="dropdown-item">Detail</li>
+      <li class="dropdown-item">Clear cache</li>
+      <li class="dropdown-item">Reload</li>
+      <li class="dropdown-item">Properties</li>
+      <li class="dropdown-divider"></li>
+      <li class="dropdown-item" (click)="actionHandler('ADD_TO_COLLECTION')">Add to collection</li>
+      <li class="dropdown-item">Set as feature</li>
+      <li class="dropdown-item" (click)="actionHandler('DELETE')">Delete</li>
+    </div>
+  </div>
+</div>
+<!--<add-to-collection *ngIf="state.addtocollection.open" mediaID="59ca31f704990111dc0c680e" (close)="addtoCollectionClose()"></add-to-collection>-->

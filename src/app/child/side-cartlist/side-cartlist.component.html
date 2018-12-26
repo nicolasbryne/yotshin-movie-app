@@ -1,0 +1,42 @@
+<div class="cart-list-container dark-scrollbar" [class.hide]="!show">
+    <div class="cart-list-head-container">
+        <!--Total space 1320MB
+        <a class="copy-btn no-link-btn float-md-right" [routerLink]="['/cart']">COPY NOW</a>-->
+        <a class="slideout-btn" (click)="slideOut()">
+            <div class="top-right-corner">
+                <i class="fa fa-caret-right"></i>
+            </div>
+        </a>
+
+
+        <div class="bottom-right-corner">
+            {{cartState.total_price}} KS
+        </div>
+    </div>
+    
+    <ul class="cart-list">
+        <li class="cart-list-item" *ngFor="let item of cartState.items;">
+            <!--<div class="cart-list-progress" [style.width]="item.progress"></div>-->
+            <div class="flexbox">
+                <a [routerLink]="['/discover/movie/detail', item._id]" class="flex-a">
+                <div class="cart-list-img-container">
+                    <div class="cart-list-image" [style.background-image]="'url('+item.poster+')'"></div>
+                </div>
+                <div class="cart-list-title">
+                    <span>{{item.filename}}</span><br>
+                    <span class="cart-list-year">{{item.filesize || '800 Mb'}}</span>
+                </div>
+                </a>
+                <a (click)="removefromCart(item._id, item.price)" class="remove-btn-container">
+                    <div class="list-btn-container">
+                        <!--<span class="glyphicon glyphicon-remove-circle"></span>-->
+                        <!--<i class="fa fa-minus" aria-hidden='true'></i>-->
+                        <div class="list-btn-remove">
+                            <i class="fa fa-trash"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </li>
+    </ul>
+</div>

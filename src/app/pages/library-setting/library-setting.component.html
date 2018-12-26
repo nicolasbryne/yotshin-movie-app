@@ -1,0 +1,190 @@
+<div *ngIf="loadChild">
+  <div class="modal-background-fade" [class.in]="showModal" (transitionend)="fadeEnd()"></div>
+  <div class="modal modal-lg show">
+    <div class="modal-dialog">
+      <div class="modal-content" [class.in]="showModal">
+        <div class="modal-header">
+          <div class="modal-title">Library setting</div>
+          <button type="button" class="close close-btn" (click)="closeChild()"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+        <!--<div role="setting-container">
+          <div class="tab-head">
+            <ul class="tab-group">
+              <li class="tab" [class.active]="step == 1"><span class="glyphicon glyphicon-chevron-right"></span> Step 1</li>
+              <li class="tab" [class.active]="step == 2"><span class="glyphicon glyphicon-chevron-right"></span> Step 2</li>
+              <li class="tab" [class.active]="step== 3"><span class="glyphicon glyphicon-chevron-right"></span> Step 3</li>
+            </ul>
+          </div>
+          <div class="modal-body modal-body-scroll dark-scrollbar">
+            <div class="modal-body-main edit-loader" [hidden]="loaded">
+              <div class="spinner-container">
+                <div *ngIf="error" class="edit-loading-error"><span class="glyphicon glyphicon-exclamation-sign"></span> Cannot load library information</div>          
+                <div *ngIf="!error" class="spinningCircle"></div>
+              </div>
+            </div>
+            <div class="modal-body-main" [hidden]="!loaded">
+              <div>
+                <form id="libraryform" #libraryForm="ngForm" (ngSubmit)="createLibrary(libraryForm)">
+                  <div class="step-container">
+                    <div class="step" [class.show]="step == 1" [class.out]="step > 1">
+                      <p>Please choose library type</p>
+                      <div class="row form-group type-choose">
+                        <div class="col-md-3 type" [class.choosen]="libraryType == 'movie'" (click)="selectType('movie')">
+                          <i class="fa fa-film fa-4x" aria-hidden="true"></i><br>
+                          <span>Movies</span>
+                        </div>
+                        <div class="col-md-3 type" [class.choosen]="libraryType == 'tvseries'" (click)="selectType('tvseries')">
+                          <i class="fa fa-television fa-4x" aria-hidden="true"></i><br>
+                          <span>TV Series</span>
+                        </div>
+                      </div>
+                      <input type="hidden" name="type" id="type" ngModel="{{libraryType}}">
+                      <p>Please be caution!</p>
+                      <p>
+                        Each library must contain only one type of media.
+                        Please make seperate library for each type of media.
+                        Each folder for adding to library must contain only one type of media.
+                        Cannot use folder containing both type of media(movie and tv series)
+                      </p>
+                    </div>
+                    <div class="step" [class.show]="step == 2" [class.out]="step > 2">
+                      <p>Please name your library</p>
+                      <div class="row">
+                        <div class="col-md-8">
+                          <div class="form-group">
+                            <label class="edit-label" for="name">Name</label>                    
+                            <div class="input-group">
+                              <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-tag"></span></span>
+                              <input required class="form-control edit-input" id="name" name="name" type="text" placeholder="Movies" ngModel="{{libraryData?.name}}">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <p>Some informations for your media in this library</p>
+
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group form-field-group">
+                            <label class="edit-label" for="subtitle">Subtitle</label>                    
+                            <div class="input-group">
+                              <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-subtitles"></span></span>
+                              <select class="form-control edit-input" id="subtitle" name="subtitle" ngModel="{{libraryData?.subtitle || None}}">
+                                <option>None</option>
+                                <option>Myanmar</option>
+                                <option>English</option>
+                                <option>Chinese</option>
+                                <option>Korean</option>
+                                <option>Other</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="edit-label" for="price">Price</label>                    
+                            <div class="input-group">
+                              <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-tag"></span></span>
+                              <input required class="form-control edit-input" id="price" name="price" type="number" placeholder="Price" ngModel="{{libraryData?.price}}">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="step" [class.show]="step == 3">
+                      <p>Your library is almost ready. Click finish to continue</p>
+                    </div>
+
+
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-md btn-default" (click)="backStep()" [disabled]="step <= 1"><div></div><span>Back</span></button>
+            <button *ngIf="step < 3; else submit" type="button" class="btn btn-primary loading-btn" (click)="nextStep()" [disabled]="step > 3 || !libraryType || !loaded || (step == 2 && !libraryForm.form.valid)"><span class="btn-label" >Next</span></button>      
+            <ng-template #submit><button type="submit" form="libraryform" class="btn btn-primary loading-btn" [disabled]="!libraryForm.form.valid || !libraryForm.form.dirty || error || !loaded || btnloading"><div class="spinningCircle spin-sm loading" [class.show]="btnloading"></div><span class="btn-label" [class.hide]="btnloading">Finish</span></button></ng-template>
+          </div> -->
+          
+          <div class="modal-body modal-body-scroll dark-scrollbar">
+            <!--<div class="modal-body-main edit-loader" [hidden]="loaded">
+              <div class="spinner-container">
+                <div *ngIf="error" class="edit-loading-error"><span class="glyphicon glyphicon-exclamation-sign"></span> Cannot load library information</div>          
+                <div *ngIf="!error" class="spinningCircle"></div>
+              </div>
+            </div>-->
+            <div class="modal-body-main">
+              <div class="row">
+                <div class="col-md-12 folder-path">
+                  <input readonly type="text" class="form-control" [(ngModel)]="currentPath">
+                </div>
+              </div>
+
+              <div class="row folder-picker">
+                <div class="col-md-5 root-dir-container">
+                  <ul class="list-group folder-browser-list">
+                    <li class="list-group-item striped-list-item folder-browser-list-item">
+                      <a href="javascript:void(0)">
+                        <span class="glyphicon glyphicon-home"></span> &nbsp; Home
+                      </a>
+                    </li>
+                     <li class="list-group-item striped-list-item folder-browser-list-item">
+                      <a href="javascript:void(0)" class="">
+                        <span class="glyphicon glyphicon-time"></span> &nbsp; Recent
+                      </a>
+                    </li>
+                    <li *ngFor="let drive of driveList" class="list-group-item striped-list-item folder-browser-list-item">
+                      <a href="javascript:void(0)" (click)="browseDrive(drive.path, $event)" [class.active]="driveActive == drive.path">
+                        <span class="glyphicon glyphicon-hdd"></span> &nbsp; {{drive.path}}
+                        <div class="spinningCircle spin-sm spin-inline hidden"></div>
+                      </a>
+                    </li>
+                    <!--<li class="list-group-item striped-list-item folder-browser-list-item">
+                      <a href="javascript:void(0)">
+                        <span class="glyphicon glyphicon-hdd"></span> D:
+                      </a>
+                    </li>
+                    <li class="list-group-item striped-list-item folder-browser-list-item">
+                      <a href="javascript:void(0)">
+                        <span class="glyphicon glyphicon-hdd"></span> F:
+                      </a>
+                    </li>
+                    <li class="list-group-item striped-list-item folder-browser-list-item">
+                      <a href="javascript:void(0)">
+                        <i class="glyphicon glyphicon-hdd"></i> H:
+                      </a>
+                    </li>-->
+                  </ul>
+                </div>
+                <div class="col-md-7 folder-lists-container">
+                  <ul class="list-group folder-lists-list">
+                    <li class="list-group-item striped-list-item folder-lists-list-item">
+                      <a href="javascript:void(0)" (click)="folderBrowser(browseList.parent?.hash, browseList.parent?.path, $event)">
+                        <i class="glyphicon glyphicon-arrow-left"></i> ..[back]
+                        <div class="spinningCircle spin-sm spin-inline hidden"></div>
+                      </a>
+                    </li>
+                    <li *ngFor="let folder of browseList?.children" class="list-group-item striped-list-item folder-lists-list-item">
+                      <a href="javascript:void(0)" (click)="folderBrowser(folder.hash, folder.path, $event)">
+                        <i class="glyphicon glyphicon-folder-open"> </i> &nbsp;{{ folder.name }}
+                        <div class="spinningCircle spin-sm spin-inline hidden"></div>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-md btn-default" (click)="closeChild()"><span class="btn-label">Cancel</span></button>
+            <button type="button" class="btn btn-primary loading-btn" (click)="addMedia()" [disabled]="btnloading"><div class="spinningCircle spin-sm loading" [class.show]="btnloading"></div><span class="btn-label">Add this folder</span></button>
+          </div>
+
+        <!--</div>-->
+      </div>
+    </div>
+  </div>
+</div>

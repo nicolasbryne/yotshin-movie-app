@@ -1,0 +1,81 @@
+<div class="cart-header">
+  <div class="cart-title">
+    <i class="fa fa-shopping-cart"></i> Cart List
+  </div>
+  <div class="action-btn-container">
+    <button *ngIf="!copying && !complete" [disabled]="driveError || !destPath" type="button" class="btn action-btn copy-btn" (click)="startCopy()"><i class="fa fa-files-o"></i> START COPY</button>
+    <button *ngIf="copying && !complete" [disabled]="driveError || !destPath" type="button" class="btn action-btn abort-btn" (click)="abortAll()"><i class="fa fa-ban"></i> ABORT ALL</button>
+    <button *ngIf="complete" type="button" class="btn action-btn checkout-btn" (click)="startCopy()"><i class="fa fa-credit-card"></i> Checkout</button>
+  </div>
+  <div class="dest-container">
+    
+      <div class="input-group">
+        <span class="input-group-addon dest-block" (click)="openFolderPicker()"><i class="fa fa-folder-o"></i></span>
+        <input class="form-control dest-input" placeholder="Destination folder" readonly ngModel="{{destPath}}"/>
+      </div>
+
+      <div class="drive-error-container" *ngIf="driveError">
+        <i class="fa fa-times-circle" aria-hidden="true"></i> Error <br>
+        {{driveError}}
+      </div>
+    
+  </div>
+</div>
+<div class="cart-container dark-scrollbar">
+    <div class="cart-list-props">
+     <!-- <span class="total-files prop-item">Total files : {{cartItems.length || 0}}</span>-->
+      <span class="required-space prop-item" [class.error]="driveError"><i class="fa fa-hdd-o"></i> {{totalSpaceFormat}} required</span>
+      <span *ngIf="freeSpace" class="free-space prop-item" [class.error]="driveError"><i class="fa fa-hdd-o"></i> {{freeSpaceFormat}} available</span>
+    </div>
+    <div class="cart-list-container">
+      <ul class="cart-list">
+        <li class="cart-list-item striped-list-item" *ngFor="let item of cartItems">
+          <a>
+            <div class="cart-list-item-block cart-list-item-icon">
+                <span *ngIf="item.copy?.status !== 0 && item.copy?.status !== 1 && copying" class="fa fa-hourglass-o success"></span>
+                <span *ngIf="item.copy?.status == 1" class="fa fa-check success"></span>
+                <span *ngIf="item.copy?.status == 0" class="fa fa-times error"></span>
+            </div>
+            <div class="cart-list-item-poster-container">
+                <div class="cart-list-item-poster" [style.background-image]="'url('+item.posterURL+')'"></div>
+            </div>
+            <div class="cart-list-item-block text">
+                <span class="title">{{item.title}}</span><br>
+                <span class="year">{{item.releasedYear}}</span><br>
+            </div>
+            <div class="cart-list-item-block text">
+                <span class="title">{{item.runtime}} min</span><br>
+                <span class="year">{{item.filesize}}</span><br>
+            </div>
+            <div class="cart-list-item-block text">
+                <span class="rating-stars" *ngFor="let star of stars" [class.active]="star <= (item.rating/2)+0.25">
+                  <i class="fa fa-star"></i>
+                </span>
+                <span class="rating-text">{{item.rating}}/10</span>
+            </div>
+            <div class="cart-list-item-block progress-block">
+              <div class="progress-wrapper" [class.showalways]="copying">
+                <div *ngIf="copying" class="progress-text">{{item.copy?.progress || 0}}%</div>
+                <round-progress *ngIf="copying || item.copy?.progress" [current]="item.copy?.progress || 0" [max]="100" [radius]="20" [stroke]="3" [background]="'rgb(27, 27, 27)'"></round-progress>
+              </div>
+            </div>
+            <div *ngIf="!copying" class="cart-list-remove-item">
+                <i class="fa fa-times"></i>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>
+<div class="cart-footer">
+    <div class="form-container">
+        <div class="input-container">
+          <span class="input-addon">Cash</span>
+          <input type="text" />
+        </div>
+        <div class="check-out">
+          <button type="button" class="btn btn-apply">Apply</button>
+        </div>
+    </div>
+</div>
+<folder-picker *ngIf="showFolderPicker" (selectedFolder)="onSelectFolder($event)"></folder-picker>

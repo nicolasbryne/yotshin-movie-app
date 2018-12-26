@@ -1,0 +1,118 @@
+<div class="background-container">
+  <div class="background" [style.background-image] = "'url('+backdrop+')'"></div>
+</div>
+<div class="details-breadcrumb-bar breadcrumb-bar">
+    <span (click)="back()" class="menu-icon"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
+    <span class="details-breadcrumb"><a class="breadcrumb-btn btn-gray" href="#"><span class="breadcrumb-truncated-label">Adult |</span></a></span>
+    <span class="current-item"><span class="details-breadcrumb"><a class="breadcrumb-btn btn-gray" href="#"><span class="breadcrumb-truncated-label">{{moviemeta.title || moviemeta.filename}}</span></a></span></span>
+    <div class="action-btn-container float-md-right">
+    <span class="pull-right meta-right breadcrumb-truncated-label item-price"><a class="btn action-btn btn-buy"><span class="glyphicon glyphicon-shopping-cart"></span> 500 ks</a></span>
+    <span class="pull-right meta-right breadcrumb-truncated-label item-edit"><a class="btn action-btn btn-buy" (click)="openEdit()"><i class="fa fa-pencil"></i></a></span>
+    <span class="pull-right meta-right breadcrumb-truncated-label item-edit"><a class="btn action-btn btn-buy" (click)="openCollection()"><i class="fa fa-plus-square-o"></i></a></span>
+    </div>
+    <!--<ul class="action-list-btn pull-right">
+        <li class="action-list-btn-item">Cras justo odio</li>
+        <li class="action-list-btn-item">Cras justo odio</li>
+    </ul>-->
+</div>
+
+<div id="content" class="content-container dark-scrollbar">
+        <div class="details-container">
+            <div class="detail-row">
+                <div class="details-title-container">
+                    <h1 class="item-title">{{moviemeta.title || moviemeta.filename}}</h1>
+                    <h2 class="item-year">{{moviemeta.releasedDate || moviemeta.fad | date:'y'}}</h2>
+                </div>
+                <div class="details-metadata-container">
+                    <div class="movie-details-metadata-container">
+                        <div class="meta-right pull-right">
+                            <div class="item-genre metadata-tags">{{genres}}</div>
+                            <div class="item-released metadata-tags" *ngIf="moviemeta.type==1">Released : {{moviemeta.releasedDate | date:'y-MM-dd'}}</div>
+                            <div class="item-released metadata-tags" *ngIf="moviemeta.type==2">First Air Date : {{moviemeta.fad | date:'y-MM-dd'}}</div>
+                            <div class="item-size metadata-tags" *ngIf="moviemeta.filesize && moviemeta.filesize != 0; else filenot">{{moviemeta.filesize | filesize}}</div>
+                            <ng-template #filenot><div class="item-size metadata-tags"><h5><span class="badge badge-pill badge-danger">File not available!</span></h5></div></ng-template>
+                            <div class="item-type metadata-tags">CHANNEL MYANMAR</div>
+                            <div class="item-collection metadata-tags">Collections<br><a href="#" *ngFor="let col of moviemeta.collections"> {{col.name}} </a></div>
+                        </div>
+                        <p class="metadata-labels">
+                            <span class="item-duration metadata-duration" *ngIf="moviemeta.type==1">{{moviemeta.runtime}} minutes</span>
+                            <span class="item-duration metadata-duration" *ngIf="moviemeta.type==2">Seasons : {{moviemeta.total_seasons}}</span>
+                            <span class="item-duration metadata-duration" *ngIf="moviemeta.type==2">Episodes : {{moviemeta.episodes}}</span>
+                        </p>
+                        <div class="item-director metadata-tags">
+                            <span class="metadata-label">Director</span><span>{{director}}</span>
+                        </div>
+                        <div class="item-writer metadata-tags">
+                            <span class="metadata-label">Writer</span><span>{{writer}}</span>
+                        </div>
+                        <div class="item-cast metadata-tags">
+                            <span class="metadata-label">Casts</span><span>{{casts}}</span>
+                        </div>
+                        <div class="item-audio metadata-tags metadata-tags-separator">
+                            <span class="metadata-label">Audio</span><span *ngIf="mediainfo.length">{{audioinfo[mediainfo[0].audio.channel]}} {{mediainfo[0].audio.format}} ({{mediainfo[0].audio.formatinfo}})</span>
+                        </div>
+                        <div class="item-subtitle metadata-tags">
+                            <span class="metadata-label">Subtitle</span><span>Myanmar</span>
+                        </div>
+                        <div class="item-imdbrating metadata-tags metadata-tags-separator">
+                            <span class="metadata-label">IMDB Rating</span><span>{{moviemeta.rating}}</span>
+                        </div>
+                        <div class="item-rated metadata-tags">
+                            <span class="metadata-label">Rated</span><span>{{moviemeta.contentrating || 'none'}}</span>
+                        </div>
+                        <div class="summary-container">
+                            <div class="summary">
+                                
+                                <p class="item-summary metadata-summary metadata-tags"><span class="metadata-label">OVERVIEW</span><br>{{moviemeta.overview}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="series-container">
+                           <div class="season-title">
+                                SEASONS
+                           </div>
+                           <div class="season-list-container">
+                               <ul class="season-list">
+                                   <li class="season-list-item" *ngFor="let season of moviemeta.seasons">
+                                       <div class="list-item-wrapper">
+                                           <div class="season-poster-wrapper" [style.background-image]="'url('+season.poster+')'"></div>
+                                           <div class="season-info">
+                                               <div class="season">Season {{season.season_number}} ({{season.air_date | date:'y'}})</div>
+                                               <div class="season-meta">
+                                                   Total episodes : {{season.episode_count}}<br>
+                                                   Avaliable : 20 episodes
+                                               </div>
+                                           
+                                           </div>
+                                       </div>
+                                       <div class="season-list-icon">
+                                           <i class="fa fa-shopping-cart"></i>
+                                       </div>
+                                   </li>
+                               </ul>
+                           </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="details-poster-container">
+                    <a class="media-poster-container play-btn" href="#">
+                        <div class="movie-poster item-poster media-poster" [style.background-image] = "'url('+poster+')'">
+                            <div class="media-poster-overlay"></div>
+                        </div>
+                    </a>
+                    <div class="video-audio-flags-container media-flags" *ngIf="mediainfo.video">
+                        <img src="{{videoicon[mediainfo?.video?.resolution]}}" class="media-flag">
+                        <img src="{{audioicon[mediainfo?.audio?.format]}}" class="media-flag">
+                        <img src="{{audioicon[mediainfo?.audio?.channel]}}" class="media-flag">
+                    </div>
+                    <div class="buybtn-container">
+                        <button class="btn btn-warning btn-outline buybtn" [disabled]="moviemeta.filesize == 0"><span class="glyphicon glyphicon-shopping-cart"></span> BUY</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+<edit-metainfo [mediaID]="movieId" (close)="closePopup()" *ngIf="editShow"></edit-metainfo>
+<add-to-collection [mediaID]="movieId" (close)="closePopup()" *ngIf="collectionShow"></add-to-collection>

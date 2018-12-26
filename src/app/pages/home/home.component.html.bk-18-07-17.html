@@ -1,0 +1,476 @@
+<div class="content-wrapper" [style.height.px]="domHeight">
+<div class="breadcrumb-bar">
+  <!--<span (click)="toggleSidebar()" class="menu-icon"><span class="glyphicon glyphicon-chevron-right"></span></span>-->
+  <span>List Movies</span>
+  <div ngbDropdown class="d-inline-block dropdown-panel movielist-dropdown">
+      <span id="listmovie" ngbDropdownToggle> —  All Library</span>
+      <div class="dropdown-menu" aria-labelledby="listmovie">
+        <span class="dropdown-item">All Library</span>
+        <span class="dropdown-item">Confirmed</span>
+        <span class="dropdown-item">Pending</span>
+        <span class="dropdown-item">Unidentifined</span>
+        <div class="dropdown-divider"></div>
+        <h6 class="dropdown-header">Libraries</h6>
+        <span class="dropdown-item" *ngFor="let library of libraryList">{{library.name}}</span>
+      </div>
+  </div>
+
+  <span class="badge badge-pill badge-warning">{{allItems.length}}</span>
+
+
+  <div class="pull-right action-block">
+    <div ngbDropdown class="d-inline-block dropdown-panel thumb-dropdown">
+      <span id="thumb" ngbDropdownToggle><i class="fa fa-image"></i></span>
+      <div class="dropdown-menu" aria-labelledby="thumb">
+        <span class="dropdown-item" (click)="setthumbsize('lg')">Large <span [hidden]="!thumbLarge" class="check pull-right"><i class="fa fa-check"></i></span></span>
+        <span class="dropdown-item" (click)="setthumbsize('md')">Medium <span [hidden]="thumbLarge" class="check pull-right"><i class="fa fa-check"></i></span></span>
+        <span class="dropdown-item">Small</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="scrollable" class="container-fluid home dark-scrollbar" [class.expand]="sidebarShow">
+  <div class="toolbar">
+  <!-- <span><i class="fa fa-sort" aria-hidden="true"></i> sort by: rating</span> -->
+    <span class="info-display">Library</span>
+
+    <div ngbDropdown class="d-inline-block sortdropdown pull-right">
+      <span id="sortby" ngbDropdownToggle><i class="fa fa-sort" aria-hidden="true"></i> Sort by : {{sortedby[sortIndex]}}</span>
+      <div class="dropdown-menu" aria-labelledby="sortby">
+        <span class="dropdown-item" (click)="requestsortby(0)">{{sortedby[0]}}</span>
+        <span class="dropdown-item" (click)="requestsortby(1)">{{sortedby[1]}}</span>
+        <span class="dropdown-item" (click)="requestsortby(2)">{{sortedby[2]}}</span>
+        <span class="dropdown-item" (click)="requestsortby(3)">{{sortedby[3]}}</span>
+        <span class="dropdown-item" (click)="requestsortby(4)">{{sortedby[4]}}</span>
+      </div>
+    </div>
+
+    <div ngbDropdown class="d-inline-block sortdropdown pull-right">
+      <span id="folder" ngbDropdownToggle>Folder : All</span>
+      <div class="dropdown-menu" aria-labelledby="folder">
+        <span class="dropdown-item" (click)="requestsortby(0)">All</span>
+        <span class="dropdown-item" (click)="requestsortby(1)">E:\MOVIES</span>
+        <span class="dropdown-item" (click)="requestsortby(2)">E:\MOVIES</span>
+        <span class="dropdown-item" (click)="requestsortby(3)">E:\MOVIES</span>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="movie-wrapper">
+    <ul class="poster-wrap list-inline">
+    
+    <li class="list-inline-item poster-item" *ngFor="let movie of pagedItems; let i = index" [class.poster-item-small]="!thumbLarge">
+        <!--<div class="poster-wrapper"><div class="spinningCircle"></div></div>-->
+        <div class="poster-wrapper" [attr.data-src]="movie.posterURL" [class.poster-wrapper-small]="!thumbLarge">
+          <div class="poster-spinner">
+            <div class="error-bgicon"><i class="fa fa-television"></i></div>
+          </div>
+          <div class="poster-overlay">
+            <a [routerLink]="['/discover/movie/pending', movie._id]">
+              <span class="pull-left corner-button multi-btn" *ngIf="movie.status == 2">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+              </span>
+            </a>
+            <a href="javascript:void(0)">
+              <span class="pull-left corner-button multi-btn" (click)="addtoFeatures(movie._id, movie.feature, i)">
+                <i class="fa" [class.fa-heart]="movie.feature" [class.fa-heart-o]="!movie.feature" aria-hidden="true"></i>
+              </span>
+            </a>
+            <span class="pull-right corner-button" (click)="contextOpen($event, movie._id, i)">
+              <span class="glyphicon glyphicon-option-horizontal"></span>
+              <!--<i class="fa fa-ellipsis-h" aria-hidden="true"></i>-->
+            </span>
+            <div class="hover-metainfo">
+              <p>
+                <span>Size   : {{movie.filesize | filesize}}</span><br>
+                <span *ngIf="movie.runtime">Runtime: {{movie.runtime||"Unknown"}} mins<br></span>
+                <span class="rating-stars" *ngFor="let star of stars" [class.active]="star <= (movie.rating/2)+0.25">
+                  <i class="fa fa-star"></i>
+                </span>
+                <span class="rating-text">{{movie.rating}}/10</span>
+              </p>
+              
+            </div>
+            <div class="poster-action">
+              <span class="flat-butt flat-warn" (click)="addtoCart(i)"><i class="fa fa-shopping-cart" aria-hidden="true"></i> BUY</span>
+            </div>
+          </div>
+        </div>
+        <div class="poster-meta">
+          <span class="title">{{movie.title || movie.filename}}</span><br>
+          <span class="year" *ngIf="movie.releasedDate; else dateUnknown">{{movie.releasedDate | date:'y'}}</span>
+          <ng-template #dateUnknown><span class="year" >Unknown</span></ng-template>
+        </div>
+    </li>   
+    </ul>
+  </div>  
+
+<div class="container pagination-footer">
+  <nav class="pagination-container">
+  <!-- pager -->
+            <ul *ngIf="pager.pages && pager.pages.length" class="pagination justify-content-center">
+                <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a class="page-link" (click)="setPage(1)" href="javascript:void(0)">First</a>
+                </li>
+                <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                    <a class="page-link" (click)="setPage(pager.currentPage - 1)" href="javascript:void(0)">Previous</a>
+                </li>
+                <li  class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                    <a class="page-link" (click)="setPage(page)" href="javascript:void(0)">{{page}}</a>
+                </li>
+                <li  class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a class="page-link" (click)="setPage(pager.currentPage + 1)" href="javascript:void(0)">Next</a>
+                </li>
+                <li  class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                    <a class="page-link" (click)="setPage(pager.totalPages)" href="javascript:void(0)">Last</a>
+                </li>
+            </ul>
+  </nav>    
+</div>
+
+</div>
+
+</div>
+
+<div *ngIf="contextShow === true" class="context hide" [style.transform]="contextTransform" [class.show]="contextmenuShow" (clickOutside)="contextClose()">
+  <div class="d-inline-block dropdown-panel">
+    <div class="context-menu hide" [class.show]="contextmenuShow">
+      <li class="dropdown-item" (click)="editOpen(editId)">Edit</li>
+      <li class="dropdown-item">Detail</li>
+      <li class="dropdown-item">Clear cache</li>
+      <li class="dropdown-item">Reload</li>
+      <li class="dropdown-item" (click)="mediainfoOpen(editId)">Properties</li>
+      <li class="dropdown-divider"></li>
+      <li class="dropdown-item" (click)="collectionOpen(editId)">Add to collection</li>
+      <li class="dropdown-item" (click)="addtoFeatures(2)">Set as feature</li>
+      <li class="dropdown-item" (click)="deleteItem(editId, arrIndex)">Delete</li>
+    </div>
+  </div>
+</div>
+
+<edit-metainfo [mediaID]="editId" (close)="closePopup()" *ngIf="popupopen == 'editform'"></edit-metainfo>
+<mediainfo [mediaID]="editId" (close)="closePopup()" *ngIf="popupopen == 'mediainfo'"></mediainfo>
+<add-to-collection [mediaID]="editId" (close)="closePopup()" *ngIf="popupopen == 'collection'"></add-to-collection>
+
+<div *ngIf="editFormShow">
+<div class="modal-background-fade" [class.in]="edit.show" (transitionend)="fadeEnd()"></div>
+  <div class="modal show" [class.modal-lg]="popupopen !=='collection'">
+    <div class="modal-dialog">
+      <div class="modal-content" [class.in]="edit.show">
+        <div class="modal-header">
+          <div class="modal-title" *ngIf="popupopen == 'editform'">EDIT : {{edit.moviemeta.title || edit.moviemeta.filepath}}</div>
+          <div class="modal-title" *ngIf="popupopen == 'mediainfo'">File Info</div>
+          <div class="modal-title" *ngIf="popupopen == 'collection'">Select collection</div>
+          <button type="button" class="close close-btn" (click)="editClose()"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+        <div [hidden]="popupopen !== 'editform'"><!--EDIT FORM CONTAINER-->
+          <div class="tab-head">
+            <ul class="tab-group">
+              <li class="tab" [class.active]="tab == 1" (click)="changetab(1)"><span class="glyphicon glyphicon-align-center icon"></span>Movie</li>
+              <li class="tab" [class.active]="tab == 2" (click)="changetab(2)"><span class="glyphicon glyphicon-info-sign icon"></span>Info</li>
+              <li class="tab" [class.active]="tab == 3" (click)="changetab(3)"><span class="glyphicon glyphicon-shopping-cart icon"></span>Buy</li>
+            </ul>
+          </div>
+          <div class="modal-body modal-body-scroll dark-scrollbar">
+            <div class="modal-body-main edit-loader" [hidden]="edit.loaded">
+              <div class="spinner-container">
+                <div *ngIf="edit.error" class="edit-loading-error"><span class="glyphicon glyphicon-exclamation-sign"></span> Cannot load media information</div>          
+                <div *ngIf="!edit.error" class="spinningCircle"></div>
+              </div>
+            </div>
+            <div class="modal-body-main" [hidden]="!edit.loaded">
+              <div>
+                <form id="editform" #editForm="ngForm" (ngSubmit)="edit.submitEditForm(editForm)">
+                  <!--<input type="hidden" name="mongoid" id="mongoid" ngModel="{{edit.moviemeta._id}}">  -->           
+                  <div class="tab-container" [hidden]="tab !== 1">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="edit-label" for="title">Title</label>                    
+                          <div class="input-group form-group-no-border">
+                            <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-bookmark"></span></span>
+                            <input class="form-control edit-input" id="title" name="title" type="text" placeholder="Title" ngModel="{{edit.moviemeta.title}}" required>
+                          </div>
+                        </div>
+                      </div>
+                    </div>                   
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group form-field-group">
+                          <label class="edit-label" for="original_title">Original Title</label>                    
+                          <div class="input-group">
+                            <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-pencil"></span></span>
+                            <input class="form-control edit-input" id="original_title" name="original_title" type="text" placeholder="Original Title" ngModel="{{edit.moviemeta.original_title}}">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--<div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group form-field-group">
+                          <label class="edit-label" for="studio">Studio</label>                    
+                          <div class="input-group">
+                            <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-film"></span></span>
+                            <input class="form-control edit-input" id="studio" name="studio" type="text" placeholder="Studio" ngModel="Studio Babelsberg">
+                          </div>
+                        </div>
+                      </div>
+                    </div>  -->                  
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group form-field-group">
+                          <label class="edit-label" for="releasedDate">Released Date</label>                    
+                          <div class="input-group">
+                            <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-calendar"></span></span>
+                            <input class="form-control edit-input" id="releasedDate" name="releasedDate" type="text" placeholder="YYYY-MM-DD" ngModel="{{edit.moviemeta.releasedDate}}">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group form-field-group">
+                          <label class="edit-label" for="rating">Rating</label>                    
+                          <div class="input-group">
+                            <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-star"></span></span>
+                            <input class="form-control edit-input" id="rating" name="rating" type="text" placeholder="Rating" ngModel="{{edit.moviemeta.rating}}">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group form-field-group">
+                          <label class="edit-label" for="content_rating">Content Rating</label>                    
+                          <div class="input-group">
+                            <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-warning-sign"></span></span>
+                            <input class="form-control edit-input" id="contentrating" name="contentrating" type="text" placeholder="Content Rating" ngModel="{{edit.moviemeta.contentrating}}">
+                            <!--<select class="form-control edit-input" id="content_rating" name="content_rating" ngModel="G">
+                              <option>G</option>
+                              <option>PG</option>
+                              <option>PG-13</option>
+                              <option>R</option>
+                              <option>NC-17</option>
+                            </select>-->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group form-field-group">
+                          <label class="edit-label" for="casts">Casts</label>                    
+                          <div class="input-group">
+                            <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-user"></span></span>
+                            <input class="form-control edit-input" id="casts" name="casts" type="text" placeholder="Casts" ngModel="{{edit.casts}}">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group form-field-group">
+                          <label class="edit-label" for="director">Director</label>                    
+                          <div class="input-group">
+                            <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-facetime-video"></span></span>
+                            <input class="form-control edit-input" id="director" name="director" type="text" placeholder="Director" ngModel="{{edit.director}}">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group form-field-group">
+                          <label class="edit-label" for="writer">Writer</label>                    
+                          <div class="input-group">
+                            <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-edit"></span></span>
+                            <input class="form-control edit-input" id="writer" name="writer" type="text" placeholder="Writer" ngModel="{{edit.writer}}">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group form-field-group">
+                          <label class="edit-label" for="tagline">Tag Line</label>                    
+                          <div class="input-group">
+                            <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-tag"></span></span>
+                            <input class="form-control edit-input" id="tagline" name="tagline" type="text" placeholder="Tag line" ngModel="{{edit.moviemeta.tagline}}">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group form-field-group">
+                          <label class="edit-label" for="overview">Summary</label>                    
+                          <div class="input-group">
+                            <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-pencil"></span></span>
+                            <textarea class="form-control edit-input" id="overview" name="overview" type="text" placeholder="Overview" ngModel="{{edit.moviemeta.overview}}"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div> 
+                  </div> 
+                  <!--TAB 2-->
+                  <div class="tab-container" [hidden]="tab !== 2">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group form-field-group">
+                          <label class="edit-label" for="tmdbid">Tmdb ID</label>                    
+                          <div class="input-group">
+                            <span class="input-group-addon edit-block lockable" [class.unlock]="edit.unlockinput == 1" (click)="edit.unlockthis(1)"><span class="glyphicon glyphicon-align-right"></span></span>
+                            <input [disabled]="edit.unlockinput != 1" class="form-control edit-input" id="tmdbid" name="tmdbid" type="number" placeholder="TMDB ID" ngModel="{{edit.moviemeta.tmdbId}}" required>
+                            <button [disabled]="edit.unlockinput != 1" type="button" class="input-groud-addon btn btn-success btn-fetch" (click)="edit.fetchmovietmdb(editForm.value.tmdbid); changetab(1);">Fetch</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group form-field-group">
+                          <label class="edit-label" for="imdbid">Imdb ID</label>                    
+                          <div class="input-group">
+                            <span class="input-group-addon edit-block lockable" [class.unlock]="edit.unlockinput == 2" (click)="edit.unlockthis(2)"><span class=""><strong>tt</strong></span></span>
+                            <input [disabled]="edit.unlockinput != 2" class="form-control edit-input" id="imdbid" name="imdbid" type="text" placeholder="IMDB ID" ngModel="{{edit.moviemeta.imdbid}}">
+                            <button [disabled]="edit.unlockinput != 2" type="button" class="input-groud-addon btn btn-success btn-fetch" (click)="edit.fetchmovieimdb(editForm.value.imdbid); changetab(1);">Fetch</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group form-field-group">
+                          <label class="edit-label" for="subtitle">Subtitle</label>                    
+                          <div class="input-group">
+                            <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-subtitles"></span></span>
+                            <select class="form-control edit-input" id="subtitle" name="subtitle" ngModel="Myanmar">
+                              <option>None</option>
+                              <option>Myanmar</option>
+                              <option>English</option>
+                              <option>Chinese</option>
+                              <option>Korean</option>
+                              <option>Other</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--TAB 3-->
+                  <div class="tab-container" [hidden]="tab !== 3">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group form-field-group">
+                          <label class="edit-label" for="price">Price</label>                    
+                          <div class="input-group">
+                            <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-usd"></span></span>
+                            <input class="form-control edit-input" id="price" name="price" type="number" placeholder="Price" ngModel="300">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="popupopen == 'mediainfo'"><!--MEDIA INFO CONTAINER-->
+          <div class="modal-body modal-body-scroll dark-scrollbar">
+            <div class="modal-body-main edit-loader" [hidden]="edit.loaded">
+              <div class="spinner-container">
+                <div *ngIf="edit.error" class="edit-loading-error"><span class="glyphicon glyphicon-exclamation-sign"></span> Cannot load media information</div>          
+                <div *ngIf="!edit.error" class="spinningCircle"></div>
+              </div>
+            </div>
+            <div class="modal-body-main" [hidden]="!edit.loaded">
+              <div class="media-info" *ngFor="let mediainfo of edit.mediainfo">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="media-info-subheader">General</div>
+                    <div class="media-info-attr">
+                      <span class="media-info-label">File :</span> <span class="media-info-value">{{mediainfo.general.filepath}}</span><br>
+                      <span class="media-info-label">Size :</span> <span class="media-info-value">{{mediainfo.general.size}}</span><br>
+                      <span class="media-info-label">Duration :</span> <span class="media-info-value">{{mediainfo.general.duration}}</span><br>
+                      <span class="media-info-label">Container :</span> <span class="media-info-value">{{mediainfo.general.format}}</span><br>
+                      <span class="media-info-label">Created :</span> <span class="media-info-value">{{mediainfo.general.created}}</span><br>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="media-info-subheader">Video</div>
+                        <div class="media-info-attr">
+                          <span class="media-info-label">Width :</span> <span class="media-info-value">{{mediainfo.video.width}}</span><br>
+                          <span class="media-info-label">Height :</span> <span class="media-info-value">{{mediainfo.video.height}}</span><br>
+                          <span class="media-info-label">Encoded Library :</span> <span class="media-info-value">{{mediainfo.video.encoded_library}}</span><br>
+                          <span class="media-info-label">Bitrate :</span> <span class="media-info-value">{{mediainfo.video.bitrate}}</span><br>
+                          <span class="media-info-label">Frame :</span> <span class="media-info-value">{{mediainfo.video.framerate}} fps</span><br>
+                          <span class="media-info-label">Codec :</span> <span class="media-info-value">{{mediainfo.video.codec}}</span><br>
+                          <span class="media-info-label">Type :</span> <span class="media-info-value">{{mediainfo.video.format}}</span><br>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="media-info-subheader">Audio</div>
+                        <div class="media-info-attr">
+                          <span class="media-info-label">Channels :</span> <span class="media-info-value">{{mediainfo.audio.channel}}</span><br>
+                          <span class="media-info-label">Bitrate :</span> <span class="media-info-value">{{mediainfo.audio.bitrate}}</span><br>
+                          <span class="media-info-label">Codec :</span> <span class="media-info-value">{{mediainfo.audio.codec}}</span><br>
+                          <span class="media-info-label">Type :</span> <span class="media-info-value">{{mediainfo.audio.format}}</span><br>
+                          <span class="media-info-label">Info :</span> <span class="media-info-value">{{mediainfo.audio.formatinfo}}</span><br>
+                          <span class="media-info-label">Audio Sample Rate :</span> <span class="media-info-value">{{mediainfo.audio.samplingrate}}</span><br>
+                        </div>
+                        </div>
+                    </div>                   
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>       
+        </div>
+
+        <div *ngIf="popupopen == 'collection'">
+            <div class="modal-body collection modal-body-scroll dark-scrollbar">
+              <div class="modal-body-main edit-loader collection" [hidden]="edit.loaded">
+                <div class="spinner-container collection">
+                  <div *ngIf="edit.error" class="edit-loading-error"><span class="glyphicon glyphicon-exclamation-sign"></span> Cannot load collections</div>          
+                  <div *ngIf="!edit.error" class="spinningCircle"></div>
+                </div>
+              </div>
+              <div class="modal-body-main collection" [hidden]="!edit.loaded">
+                  <div class="collection">
+                      <ul class="collection-list">
+                        <li *ngFor="let collection of edit.collectionList" class="collection-list-item striped-list-item">
+                          <a href="javascript:void(0)" (click)="edit.addtoCollection(collection.id, edit.movieId)">
+                            <div class="collection-list-item-block collection-list-item-icon">
+                              <span class="glyphicon glyphicon-ok"></span>
+                            </div>
+                            <div class="collection-list-item-block text">
+                              {{collection.name}}
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                      <div class="create">
+                        <div class="input-group">
+                          <span class="input-group-addon collection-addon"><i class="fa fa-plus-circle"></i></span>
+                          <input [(ngModel)]="edit.collectionName" class="form-control collection-input" type="text" placeholder="Create new collection">
+                        <div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+            </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-md btn-default" (click)="editClose()" *ngIf="popupopen !=='collection'" data-dismiss="modal"><div></div><span>Close</span></button>
+          <button type="submit" form="editform" class="btn btn-primary loading-btn" *ngIf="editForm && popupopen == 'editform'" [disabled]="!editForm.form.valid || !editForm.form.dirty || edit.error || !edit.loaded || edit.btnloading"><div class="spinningCircle spin-sm loading" [class.show]="edit.btnloading"></div><span class="btn-label" [class.hide]="edit.btnloading">Save Changes</span></button>      
+          <button type="button" [disabled]="edit.error || !edit.loaded" class="btn btn-primary loading-btn" (click)="edit.createCollection()" *ngIf="popupopen == 'collection'">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+
+
+
+

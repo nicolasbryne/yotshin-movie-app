@@ -1,0 +1,108 @@
+.breadcrumb-bar{
+	border-radius: 0px;
+	background: #2b2b2b;
+	padding: .75rem 1rem;
+	width: 100%;
+	margin-top: 60px;
+}
+
+
+.action-block{
+	
+	margin-right: 25px;
+}
+
+.pending-list-holder{
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.pending-list{
+	background: #2b2b2b;
+    box-shadow: 2px 2px 9px 0px rgba(0, 0, 0, 0.5);
+    margin-bottom: 16px;
+}
+.pending-list .title{
+	padding: 10px;
+    background: #1e1e1e;
+    text-shadow: 1px 1px 5px black;
+    border-bottom: 1px solid #ec971f;
+}
+
+.choose-container{
+	padding: 10px;
+}
+
+.meta{
+	padding: 10px;
+    font-size: 0.9rem;
+    color: #ccc;
+    text-shadow: 1px 1px 5px black;
+}
+
+
+.pending-poster{
+	position: relative;
+    overflow: hidden;
+    background-color: #323232;
+	width: 150px;
+	height: 214px;
+	background-size: cover;
+	background-position: center;
+    box-shadow: 0 0 4px rgba(0,0,0,.3), inset 0 0 0 1px hsla(0,0%,100%,.1);
+}
+
+.pending-poster-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: -webkit-gradient(linear,left 0,left 100%,from(rgba(0,0,0,0.8)),to(rgba(0,0,0,0.9)));
+    background-image: -webkit-linear-gradient(top,rgba(0,0,0,.8),0,rgba(0,0,0,.9),100%);
+    background-image: -webkit-linear-gradient(top,rgba(0,0,0,.8) 0,rgba(0,0,0,.9) 100%);
+    background-image: linear-gradient(to bottom,rgba(0,0,0,.8) 0,rgba(0,0,0,.9) 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000',endColorstr='#ff000000',GradientType=0);
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    -webkit-transition: opacity .2s;
+    transition: opacity .2s;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.pending-poster-overlay:hover {
+	opacity: 1;
+    border: 2px solid #ec971f;
+    border-radius: 0px;
+}
+
+.pending-poster-overlay.choosen{
+    border: 2px solid #02ad50;
+    border-radius: 0px;
+    opacity: 1;
+}
+
+.flat-btn{
+	display: inline-block;
+    width: 100%;
+    background: #02ad50;
+    border: none;
+    padding: 6px;
+    text-align: center;
+}
+
+.flat-btn:hover,focus{
+    background: #04ca5e;
+}
+
+.choose-btn{
+	position: absolute;
+	bottom:0;right:0;left:0;
+}
+
+.meta-data{
+	font-size: 0.9rem;
+}

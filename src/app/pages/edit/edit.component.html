@@ -1,0 +1,151 @@
+<div class="modal-background-fade" [class.in]="show"></div>
+  <div class="modal modal-lg show">
+    <div class="modal-dialog">
+      <div class="modal-content" [class.in]="show">
+        <div class="modal-header">
+          <div class="modal-title">EDIT : {{moviemeta.title}}</div>
+        </div>
+        <div class="modal-body modal-body-scroll dark-scrollbar">
+          <div class="modal-body-main edit-loader" [hidden]="loaded">
+            <div class="spinner-container">           
+              <div class="spinningCircle"></div>
+            </div>
+          </div>
+          <div class="modal-body-main" [hidden]="!loaded">
+            <div>
+              <form id="editform" #editForm="ngForm" (ngSubmit)="submitEditForm(editForm)">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group form-field-group">
+                      <label class="edit-label" for="title">Title</label>                    
+                      <div class="input-group">
+                        <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-bookmark"></span></span>
+                        <input class="form-control edit-input" id="title" name="title" type="text" placeholder="Title" ngModel="{{moviemeta.title}}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group form-field-group">
+                      <label class="edit-label" for="original_title">Original Title</label>                    
+                      <div class="input-group">
+                        <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-pencil"></span></span>
+                        <input class="form-control edit-input" id="original_title" name="original_title" type="text" placeholder="Original Title" ngModel="{{moviemeta.original_title}}" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group form-field-group">
+                      <label class="edit-label" for="studio">Studio</label>                    
+                      <div class="input-group">
+                        <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-film"></span></span>
+                        <input class="form-control edit-input" id="studio" name="studio" type="text" placeholder="Studio" ngModel="Studio Babelsberg">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group form-field-group">
+                      <label class="edit-label" for="releasedDate">Released Date</label>                    
+                      <div class="input-group">
+                        <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-calendar"></span></span>
+                        <input class="form-control edit-input" id="releasedDate" name="releasedDate" type="text" placeholder="Released Date" ngModel="{{moviemeta.releasedDate}}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group form-field-group">
+                      <label class="edit-label" for="rating">Rating</label>                    
+                      <div class="input-group">
+                        <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-star"></span></span>
+                        <input class="form-control edit-input" id="rating" name="rating" type="text" placeholder="Rating" ngModel="{{moviemeta.rating}}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group form-field-group">
+                      <label class="edit-label" for="content_rating">Content Rating</label>                    
+                      <div class="input-group">
+                        <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-warning-sign"></span></span>
+                        <select class="form-control edit-input" id="content_rating" name="content_rating" ngModel="G">
+                          <option>G</option>
+                          <option>PG</option>
+                          <option>PG-13</option>
+                          <option>R</option>
+                          <option>NC-17</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group form-field-group">
+                      <label class="edit-label" for="casts">Casts</label>                    
+                      <div class="input-group">
+                        <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-user"></span></span>
+                        <input class="form-control edit-input" id="casts" name="casts" type="text" placeholder="Casts" ngModel="{{moviemeta.casts}}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group form-field-group">
+                      <label class="edit-label" for="director">Director</label>                    
+                      <div class="input-group">
+                        <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-facetime-video"></span></span>
+                        <input class="form-control edit-input" id="director" name="director" type="text" placeholder="Director" ngModel="{{moviemeta.director}}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group form-field-group">
+                      <label class="edit-label" for="writer">Writer</label>                    
+                      <div class="input-group">
+                        <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-edit"></span></span>
+                        <input class="form-control edit-input" id="writer" name="writer" type="text" placeholder="Writer" ngModel="{{moviemeta.writer}}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group form-field-group">
+                      <label class="edit-label" for="tagline">Tag Line</label>                    
+                      <div class="input-group">
+                        <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-tag"></span></span>
+                        <input class="form-control edit-input" id="tagline" name="tagline" type="text" placeholder="Tag line" ngModel="{{moviemeta.tagline}}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group form-field-group">
+                      <label class="edit-label" for="overview">Summary</label>                    
+                      <div class="input-group">
+                        <span class="input-group-addon edit-block"><span class="glyphicon glyphicon-pencil"></span></span>
+                        <textarea class="form-control edit-input" id="overview" name="overview" type="text" placeholder="Overview" ngModel="{{moviemeta.overview}}"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+                   
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-md btn-default" (click)="close()" data-dismiss="modal"><div></div><span>Close</span></button>
+          <button type="submit" form="editform" class="btn btn-primary" [disabled]="!editForm.form.valid"><div></div><span>Save Changes</span></button>      
+        </div>
+      </div>
+    </div>
+  </div>

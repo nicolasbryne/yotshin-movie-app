@@ -1,0 +1,76 @@
+.context{
+	position: absolute;
+	top: 0;
+	left: 0;	
+	overflow: hidden;	
+	z-index: 1000;
+	box-shadow: 0 4px 6px 0px rgba(0, 0, 0, 0.5);
+	background-clip: padding-box;  
+	border: 1px solid rgba(0,0,0,.15);
+	box-shadow: 0 4px 10px rgba(0,0,0,.35);
+    border-radius: .25rem;
+	margin: .125rem 0 0;
+	background: #1e1e1e;
+	transition: opacity 0.15s ease-out;
+	
+}
+
+.context.hide{
+	opacity: 0;
+}
+
+.context.show{
+	opacity: 1;
+}
+
+
+
+.context-menu{
+    min-width: 10rem;
+    padding: .5rem 0;   
+    font-size: 1rem;
+    color: #eee;
+    text-align: left;
+    list-style: none;    
+	transform-origin: center top;
+	transition: opacity .15s ease-out,transform .15s cubic-bezier(0.6,0.4,0.2,1.4),-webkit-transform .15s cubic-bezier(0.6,0.4,0.2,1.4);
+}
+
+.context-menu.hide{
+	opacity: 0;
+	transform: scale(0.9);
+}
+
+.context-menu.show{
+	opacity: 1;
+	transform: scale(1)
+	
+}
+
+.context-menu .dropdown-item{
+	color: hsla(0,0%,100%,.7);
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+	font-weight: 400;
+	padding: 4px 20px;
+    width: 100%;
+    text-align: left;
+    word-wrap: break-word;
+}
+
+.context-menu .dropdown-item:hover, .context-menu .dropdown-item:focus{
+	color: hsla(0,0%,100%,1);
+	background-color: rgba(0,0,0,.2);
+	outline: none;
+}
+
+.context-menu .dropdown-divider{
+	margin: 5px 0;
+    height: 1px;
+    background-color: hsla(0,0%,78%,.15);
+}
+
+.context-menu > li {
+	color: inherit;
+	text-decoration: none;
+}

@@ -1,0 +1,151 @@
+<!--<div class="content-wrapper">-->
+<div #scrollable class="dashboard dark-scrollbar">
+  <div class="feature">
+    <a class="feature-slider-btn left" (click)="featurescrollLeft()">
+      <div class="feature-slider-btn-icon left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+    </a>
+      
+    <a class="feature-slider-btn right" (click)="featurescrollRight()">
+      <div class="feature-slider-btn-icon right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+    </a>
+    <ul #featureSlider class="list-inline feature-media-list">
+      <li class="list-inline-item" *ngFor="let feature of features">
+        <div class="background" [style.background-image]="feature.backdrop">
+          <div class="container-fluid feature-text-overlay-wrapper">
+            <div class="feature-meta-container">
+              <div class="feature-title">
+                <h5>{{feature.title || feature.filename}}</h5>
+              </div>
+              <div class="feature-metadata">
+                <span class="feature-meta-tag feature-ratings">
+                  <span *ngFor="let star of stars" [class.active]="star <= (feature.rating/2)+0.25"><i class="fa fa-star"></i></span>
+                </span>
+                <span class="feature-meta-tag">
+                  {{feature.releasedYear}}
+                </span>
+                <span class="feature-meta-tag">
+                  Available
+                </span>
+              </div>
+              <p>
+                {{feature.overview}}
+                <!--When Tony Stark tries to jumpstart a dormant peacekeeping program, things go awry and Earth’s Mightiest Heroes are put to the ultimate test as the fate of the planet hangs in the balance. As the villainous Ultron emerges, it is up to The Avengers to stop him from enacting his terrible plans, and soon uneasy alliances and unexpected action pave the way for an epic and unique global adventure.-->
+              </p>
+            </div>
+            <div class="feature-btn-container">
+              <a href="#" class="btn btn-dashboard btn-red"><i class="fa fa-shopping-cart"></i> Buy now</a>
+              <a [routerLink]="['/discover/movie/detail', feature._id]" class="btn btn-dashboard"><i class="fa fa-list"></i> Detail</a>
+            </div>
+          </div>  
+          <div class="bg-left-fader"></div>       
+        </div>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="container-fluid dashboard-content">
+    <!--<div class="recent">
+      <ul id="bestsell" class="poster-list-slider list-inline">
+        <li *ngFor="let latest of latests" class="list-inline-item poster-container">
+          <div class="poster-wrapper poster-landscape" [style.background-image]="latest.backdrop">
+            <div class="poster-overlay">
+              <div class="poster-meta">
+                {{latest.title}}
+              </div>
+              <div class="ratings">
+                <span *ngFor="let star of stars" class="rating-stars" [class.active]="star <= (latest.rating/2)+0.25"><i class="fa fa-star"></i></span>
+                <span class="float-right-md rating-text">{{latest.rating}}/10</span>
+              </div>
+            </div>
+          </div>
+        </li>            
+      </ul>
+    </div>-->
+    <div class="latest">
+        <div class="header-container">
+          <span class="section-title">Latest Released <!--<i class="glyphicon glyphicon-chevron-right"></i>--></span>
+          <span class="float-md-right slide-btn-container">
+            <a (click)="scrollLeft('latest')"><i class="glyphicon glyphicon-chevron-left"></i></a>
+            <a (click)="scrollRight('latest')"><i class="glyphicon glyphicon-chevron-right"></i></a>
+          </span>
+        </div>
+        <div class="poster-slider-container">
+          <a class="slider-btn left" (click)="scrollLeft('latest')">
+            <div class="slider-icon left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+          </a>
+            
+          <a class="slider-btn right" (click)="scrollRight('latest')">
+            <div class="slider-icon right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+          </a>
+          <ul id="latest" class="poster-list-slider list-inline">
+            <li *ngFor="let latest of latests" class="list-inline-item poster-container" [style.width.px]="posterListWidth">
+              <div class="poster-wrapper poster-sm" [attr.data-src]="latest.posterURL">
+                <div class="poster-spinner"></div>
+                <div class="poster-overlay">
+                  <div class="poster-meta">
+                    {{latest.title}}
+                  </div>
+                  <div class="ratings">
+                    <span *ngFor="let star of stars" class="rating-stars" [class.active]="star <= (latest.rating/2)+0.25"><i class="fa fa-star"></i></span>
+                    <span class="float-right-md rating-text">{{latest.rating}}/10</span>
+                  </div>
+                </div>
+              </div>
+              <!--<div class="poster-meta">
+                {{latest.title}}
+              </div>-->
+            </li>            
+          </ul>
+        </div>
+    </div>
+    <div class="latest">
+        <div class="header-container">
+          <span class="section-title">Recently Added <!--<i class="glyphicon glyphicon-chevron-right"></i>--></span>
+          <span class="float-md-right slide-btn-container">
+            <a (click)="scrollLeft('recentadded')"><i class="glyphicon glyphicon-chevron-left"></i></a>
+            <a (click)="scrollRight('recentadded')"><i class="glyphicon glyphicon-chevron-right"></i></a>
+          </span>
+        </div>
+        <div class="poster-slider-container">
+          <a class="slider-btn left" (click)="scrollLeft('recentadded')">
+            <div class="slider-icon left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+          </a>
+            
+          <a class="slider-btn right" (click)="scrollRight('recentadded')">
+            <div class="slider-icon right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+          </a>
+          <ul id="recentadded" class="poster-list-slider list-inline">
+            <li *ngFor="let latest of latests" class="list-inline-item poster-container" [style.width.px]="posterListWidth">
+              <div class="poster-wrapper poster-sm" [style.background-image]="latest.poster"></div>
+            </li>            
+          </ul>
+        </div>
+    </div>
+    <div class="latest">
+        <div class="header-container">
+          <span class="section-title">Popularity <!--<i class="glyphicon glyphicon-chevron-right"></i>--></span>
+          <span class="float-md-right slide-btn-container">
+            <a (click)="scrollLeft('popularity')"><i class="glyphicon glyphicon-chevron-left"></i></a>
+            <a (click)="scrollRight('popularity')"><i class="glyphicon glyphicon-chevron-right"></i></a>
+          </span>
+        </div>
+        <div class="poster-slider-container">
+          <a class="slider-btn left" (click)="scroll()">
+            <div class="slider-icon left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+          </a>
+            
+          <a class="slider-btn right" (click)="scrollRight('popularity')">
+            <div class="slider-icon right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+          </a>
+          <ul id="popularity" class="poster-list-slider list-inline">
+            <li *ngFor="let latest of latests" class="list-inline-item poster-container" [style.width.px]="posterListWidth">
+              <div class="poster-wrapper poster-sm" [attr.data-src]="latest.posterURL">
+                <div class="poster-spinner"></div>
+              </div>
+            </li>            
+          </ul>
+        </div>
+    </div>
+  </div>
+</div>
+<!--</div>-->

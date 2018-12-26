@@ -1,0 +1,29 @@
+.pagination-container{
+	margin: auto;
+}	
+.pagination-container .pagination>li>a,
+.pagination-container .pagination>li>span {
+  	border: 1px solid rgb(35, 36, 37);
+    background: #1e1e1e;
+    color: #f0ad4e;
+}
+
+
+.pagination-container .pagination>li>a:hover,
+.pagination-container .pagination>li>span:hover {
+  	background: #2b2b2b;
+    color: #ec971f;
+}
+
+
+.pagination-container .pagination>li.active>a {
+  background: #ec971f;
+    color: #e2e2e2;
+}
+
+.pagination-container .page-item.disabled .page-link,.pagination-container .page-item.disabled .page-link:hover {
+    color: rgb(111, 111, 111);
+    cursor: not-allowed;
+    pointer-events: auto;
+    background-color: #1e1e1e;
+}

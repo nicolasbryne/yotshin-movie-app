@@ -1,0 +1,72 @@
+<div class="breadcrumb-bar">
+  <span class="menu-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
+  <span>Library </span><div ngbDropdown class="d-inline-block dropdown-panel library-dropdown">
+      <span id="listmovie" ngbDropdownToggle> —  {{libraryData.name}}</span>
+      <div class="dropdown-menu" aria-labelledby="listmovie">
+        <span class="dropdown-item" *ngFor="let list of libraryList" (click)="changeLibrary(list.ID)">{{list.name}}</span>
+      </div>
+  </div>
+
+  <span class="action-bar pull-right">
+  	<span class="action">
+			<span class="action-btn reload-btn" [class.disabled]="updateinProgress" (click)="updateLibrary()">
+  			<span class="glyphicon glyphicon-repeat" [class.spin-slow]="updateinProgress" placement="bottom" ngbTooltip="Update Library"></span>
+  		</span>
+			<span class="action-btn add-btn" (click)="librarySetting()">
+  			<span class="glyphicon glyphicon-cog" placement="bottom" ngbTooltip="Library setting"></span>
+  		</span>
+  		<span class="action-btn add-btn" (click)="addToggle()">
+  			<span class="glyphicon glyphicon-plus" placement="bottom" ngbTooltip="Import movies"></span>
+  		</span>
+  		
+  	</span>
+  </span>
+
+</div>
+
+
+<div class="form-back" [class.collapsed]="addHide">
+	<div class="row">
+		<div class="col-md-8">
+			<div class="sub-title"><strong>Choose folder path</strong></div>
+			<div class="form-holder input-group">
+				<span class="input-group-addon add-folder-label"><i class="fa fa-folder-open"></i> Folder</span><input type="text" class="form-control" [(ngModel)]="inputfolder" (ngModelChange)="inputchange($event)"><button class="btn btn-success add-btn loading-btn" (click)="addMedia()"><div class=" spinningCircle spin-sm loading" [class.show]="statusShow==1"></div>ADD</button>
+				<span class="info-msg" [style.color]="statusColor" [style.opacity]="statusShow"></span>
+				<span class="status">{{status}}</span>
+			</div>
+		</div>
+		
+	</div>
+	
+</div>
+
+<div class="folder-header"><!-- <i class="fa fa-film"></i><span class="title">Movie Library</span> --></div>
+<div class="container-fluid">
+	<div class="folder-table-container">
+
+		<table class="table table-striped table-borderless table-sm table-hover folder-table">
+		  <thead>
+		    <tr>
+		      <th>#</th>
+					<th> </th>
+		      <th>Folder path</th>
+		      <th>Total files</th>
+		      <th>Date added</th>
+		      <th>Action</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr *ngFor="let folder of folderlist; let i = index;">
+		      <th scope="row">{{i+1}}</th>
+					<td><i class="fa fa-hdd-o"></i></td>
+		      <td>{{folder.directory}}</td>
+		      <td>{{folder.filecount}} files</td>
+		      <td>{{datetodate(folder.dateAdded)}}</td>
+		      <td><a class="btn btn-danger btn-sm" href="javascript:void(0)" (click)="removeFolder(folder.directory, i)"><i class="fa fa-trash"></i> DELETE</a></td>
+		    </tr>
+		  </tbody>
+		</table>
+
+	</div>
+</div>
+<app-library-setting [_event]="loadLibraryPopup" (emitter)="receiveEvent($event)"></app-library-setting>

@@ -1,0 +1,64 @@
+<div class="modal-background-fade" [class.in]="show" (transitionend)="fadeEnd()"></div>
+<div class="modal show modal-lg">
+  <div class="modal-dialog">
+    <div class="modal-content" [class.in]="show">
+      <div class="modal-header">
+        <div class="modal-title">File Info</div>
+        <button type="button" class="close close-btn" (click)="editClose()"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+      <!--MEDIA INFO CONTAINER-->
+      <div class="modal-body modal-body-scroll dark-scrollbar">
+        <div class="modal-body-main edit-loader" [hidden]="loaded">
+          <div class="spinner-container">
+            <div *ngIf="error" class="edit-loading-error"><span class="glyphicon glyphicon-exclamation-sign"></span> Cannot load media information</div>          
+            <div *ngIf="!error" class="spinningCircle"></div>
+          </div>
+        </div>
+        <div class="modal-body-main" [hidden]="!loaded">
+          <div class="media-info" *ngFor="let mediainfo of mediainfo">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="media-info-subheader">General</div>
+                <div class="media-info-attr">
+                  <span class="media-info-label">File :</span> <span class="media-info-value">{{mediainfo.general.filepath}}</span><br>
+                  <span class="media-info-label">Size :</span> <span class="media-info-value">{{mediainfo.general.size}}</span><br>
+                  <span class="media-info-label">Duration :</span> <span class="media-info-value">{{mediainfo.general.duration}}</span><br>
+                  <span class="media-info-label">Container :</span> <span class="media-info-value">{{mediainfo.general.format}}</span><br>
+                  <span class="media-info-label">Created :</span> <span class="media-info-value">{{mediainfo.general.created | date:'medium'}}</span><br>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="media-info-subheader">Video</div>
+                    <div class="media-info-attr">
+                      <span class="media-info-label">Width :</span> <span class="media-info-value">{{mediainfo.video.width}}</span><br>
+                      <span class="media-info-label">Height :</span> <span class="media-info-value">{{mediainfo.video.height}}</span><br>
+                      <span class="media-info-label">Encoded Library :</span> <span class="media-info-value">{{mediainfo.video.encoded_library}}</span><br>
+                      <span class="media-info-label">Bitrate :</span> <span class="media-info-value">{{mediainfo.video.bitrate}}</span><br>
+                      <span class="media-info-label">Frame :</span> <span class="media-info-value">{{mediainfo.video.framerate}} fps</span><br>
+                      <span class="media-info-label">Codec :</span> <span class="media-info-value">{{mediainfo.video.codec}}</span><br>
+                      <span class="media-info-label">Type :</span> <span class="media-info-value">{{mediainfo.video.format}}</span><br>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="media-info-subheader">Audio</div>
+                    <div class="media-info-attr">
+                      <span class="media-info-label">Channels :</span> <span class="media-info-value">{{mediainfo.audio.channel}}</span><br>
+                      <span class="media-info-label">Bitrate :</span> <span class="media-info-value">{{mediainfo.audio.bitrate}}</span><br>
+                      <span class="media-info-label">Codec :</span> <span class="media-info-value">{{mediainfo.audio.codec}}</span><br>
+                      <span class="media-info-label">Type :</span> <span class="media-info-value">{{mediainfo.audio.format}}</span><br>
+                      <span class="media-info-label">Info :</span> <span class="media-info-value">{{mediainfo.audio.formatinfo}}</span><br>
+                      <span class="media-info-label">Audio Sample Rate :</span> <span class="media-info-value">{{mediainfo.audio.samplingrate}}</span><br>
+                    </div>
+                    </div>
+                </div>                   
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-md btn-default" (click)="editClose()" data-dismiss="modal"><div></div><span>Close</span></button>
+      </div>
+    </div>
+  </div>
+</div>

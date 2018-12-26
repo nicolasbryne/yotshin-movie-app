@@ -1,0 +1,33 @@
+<div class="breadcrumb-bar">
+  <span (click)="back()" class="menu-icon"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
+  <span>Pending movies</span>
+ 
+  <div class="pull-right action-block">
+  </div>
+
+</div>
+
+<div class="container-fluid">
+	<div class="pending-list-holder">
+		<div class="pending-list" *ngFor="let pending of pendingList">
+			<div class="title"><h5>{{pending.filename}}</h5></div>
+			<div class="meta"><span>Path : {{pending.filepath}}</span></div>
+			<div class="choose-container">
+				<ul class="list-inline pending-list-ul">
+					<li class="list-inline-item pending-item" *ngFor="let item of pending.results; let i = index">
+						<div class="pending-poster" [style.background-image] = "item.poster_path">
+							<div class="pending-poster-overlay">
+								<div class="meta-data">
+									<span><strong>{{item.title}}</strong></span><br>
+									<span>({{item.release_date}})</span><br>
+									<span>Rating : {{item.vote_average}}</span>
+								</div>
+								<a class="choose-btn flat-btn" (click)="pendingConfirm(pending._id, i, $event)"><i class="fa fa-check"></i> Choose</a>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

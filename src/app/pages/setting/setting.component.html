@@ -1,0 +1,61 @@
+<div class="setting-sidemenu">
+  <div class="sidemenu-header">
+    Setting
+  </div>
+  <ul class="sidemenu-list">
+    <li class="sidemenu-list-item">
+      <div class="list-item">Tasks</div>
+    </li>
+  </ul>
+</div>
+
+<div class="setting-content">
+ 
+  <div class="setting-content-tab">
+    <section>
+      <div class="section-header">
+        Extend Meta Informations
+      </div>
+      <span class="description">
+        Extend your movies and series meta information to use locally without any internet connection.
+      </span>
+      <div class="poster-header-container">
+        <div class="circle-text">{{toExtend}}</div>
+        <div class="btn-container">
+          <a class="btn btn-primary" (click)="startExtend()" [class.disabled]="extending || toExtend==0">
+            <span>Extend</span>
+            <!--<span *ngIf="downloading">Downloading.... </span>-->
+          </a>
+        </div>
+      </div>
+      <div class="dl-progress-info" *ngIf="extending">
+        <div class="spinningCircle spin-sm loading"></div>&nbsp;Extending... "{{extendingTitle}}" <br>
+        <!--<span class="dl-finished">&nbsp;Finished : {{downloadProgress}}</span>-->
+      </div>
+    </section>
+    <section>
+      <div class="section-header">
+        Posters & Backdrops
+      </div>
+      <span class="description">
+        Download and cache media posters and backdrops to use them locallaly while you are not online.
+      </span>
+      <div class="poster-header-container">
+        <div class="circle-text">{{toDownload}}</div>
+        <div class="btn-container">
+          <a class="btn btn-primary" (click)="startDownload()" [class.disabled]="downloading || toDownload==0">
+            <span>Download Poster</span>
+            <!--<span *ngIf="downloading">Downloading.... </span>-->
+          </a>
+        <a *ngIf="downloading" class="btn btn-alert" (click)="pauseDownload()"><span><i class="fa fa-times"></i></span></a>
+        </div>
+      </div>
+      <div class="dl-progress-info" *ngIf="downloading">
+        <div class="spinningCircle spin-sm loading"></div>&nbsp;Downloading... {{downloadingUrl}} <br>
+        <span class="dl-finished">&nbsp;Finished : {{downloadProgress}}</span>
+      </div>
+    </section>
+
+  </div>
+
+</div>

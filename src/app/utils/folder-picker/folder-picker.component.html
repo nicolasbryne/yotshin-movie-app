@@ -1,0 +1,62 @@
+<div class="modal-background-fade" [class.in]="showModal" (transitionend)="fadeEnd()"></div>
+  <div class="modal modal-lg show">
+    <div class="modal-dialog">
+      <div class="modal-content" [class.in]="showModal">
+        <div class="modal-header">
+          <div class="modal-title"><i class="fa fa-folder"></i> Select folder</div>
+          <button type="button" class="close close-btn" (click)="closeDialog()"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+        <div class="modal-body modal-body-scroll dark-scrollbar">
+          <div class="modal-body-main">
+              <div class="row">
+                <div class="col-md-12 folder-path">
+                  <input readonly type="text" class="form-control" [(ngModel)]="currentPath">
+                </div>
+              </div>
+              <div class="row folder-picker">
+                <div class="col-md-5 root-dir-container">
+                  <ul class="list-group folder-browser-list">
+                    <li class="list-group-item striped-list-item folder-browser-list-item">
+                      <a href="javascript:void(0)">
+                        <span class="glyphicon glyphicon-home"></span> &nbsp; Home
+                      </a>
+                    </li>
+                     <li class="list-group-item striped-list-item folder-browser-list-item">
+                      <a href="javascript:void(0)" class="">
+                        <span class="glyphicon glyphicon-time"></span> &nbsp; Recent
+                      </a>
+                    </li>
+                    <li *ngFor="let drive of driveList" class="list-group-item striped-list-item folder-browser-list-item">
+                      <a href="javascript:void(0)" (click)="browseDrive(drive.path, $event)" [class.active]="driveActive == drive.path">
+                        <span class="glyphicon glyphicon-hdd"></span> &nbsp; {{drive.path}}
+                        <div class="spinningCircle spin-sm spin-inline hidden"></div>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-7 folder-lists-container">
+                  <ul class="list-group folder-lists-list">
+                    <li class="list-group-item striped-list-item folder-lists-list-item">
+                      <a href="javascript:void(0)" (click)="folderBrowser(browseList.parent?.hash, browseList.parent?.path, $event)">
+                        <i class="glyphicon glyphicon-arrow-left"></i> ..[back]
+                        <div class="spinningCircle spin-sm spin-inline hidden"></div>
+                      </a>
+                    </li>
+                    <li *ngFor="let folder of browseList?.children" class="list-group-item striped-list-item folder-lists-list-item">
+                      <a href="javascript:void(0)" (click)="folderBrowser(folder.hash, folder.path, $event)">
+                        <i class="glyphicon glyphicon-folder-open"> </i> &nbsp;{{ folder.name }}
+                        <div class="spinningCircle spin-sm spin-inline hidden"></div>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-md btn-default" (click)="closeDialog()"><span class="btn-label">Cancel</span></button>
+            <button type="button" class="btn btn-primary loading-btn" (click)="selectFolder()" [disabled]="btnLoading"><div class="spinningCircle spin-sm loading" [class.show]="btnLoading"></div><span class="btn-label">Select folder</span></button>
+          </div>
+      </div>
+  </div>
+</div>

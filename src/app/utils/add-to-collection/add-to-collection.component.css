@@ -1,0 +1,241 @@
+button{
+    cursor: pointer;
+}
+
+.btn{
+    padding: 6px 1pc;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    border: 0;
+}
+
+.btn-primary {
+    border-color: #b56d16;
+    color: #fff;
+    text-shadow: 0 -1px 1px rgba(0,0,0,.4), 0 0 15px rgba(0,0,0,.2);
+    background-color: #ec971f;
+    box-shadow: inset 0 1px 0 #e7993b;
+    transition: background-color .1s;
+}
+.btn-primary:hover,focus{
+    color: #fff;
+    background-color: #e4840f;
+    box-shadow: inset 0 1px 0 #ebac60;
+}
+
+.btn-default{
+    border-color: #ccc;
+    color: #fff;
+    text-shadow: 0 -1px 1px rgba(0,0,0,.4), 0 0 15px rgba(0,0,0,.2);
+    background-color: #4a4a4a;
+    box-shadow: inset 0 1px 0 #696969;
+    transition: background-color .1s;
+}
+
+.btn-default:hover,focus{
+    color: #fff;
+    background-color: #555;
+    box-shadow: inset 0 1px 0 #7d7d7d;
+}
+
+.btn-label{
+    opacity: 1;
+}
+
+.btn-label.hide{
+    opacity: 0;
+}
+
+.btn-fetch{
+    border-radius: 0 .25rem .25rem 0;
+    border: 1px solid rgba(0,0,0,.15);
+}
+
+.modal-background-fade{
+    background-color: #000;
+    opacity: 0;
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    transition: opacity 0.3s ease;
+    z-index: 1040;
+}
+
+.modal-background-fade.in{
+    opacity: 0.6;
+}
+
+.dialog{
+    width: 200px;
+    height: 200px;
+    color: #fff;
+}
+
+@media screen and (min-width: 768px){
+    .modal-lg>.modal-dialog {
+        max-width: 750px;
+        /*margin: 30px auto;*/
+    }
+}
+.modal{
+    margin: auto;
+}
+.modal-dialog{
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+.modal-content{
+    transform: translateY(-300px);
+    opacity: 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,.5);
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+.modal-content.in{
+    transform: translateY(0);
+    opacity: 1;
+}
+.modal.show{
+    display: inherit;
+}
+.modal-header{
+    background: #323232;
+    border-bottom: #222;
+    padding: 15px 20px;
+    margin-bottom: 0;
+    border-radius: 3px 3px 0 0;
+
+}
+
+.modal-header .close-btn{
+    margin-top: 6px;
+    font-size: 1pc;
+    color: #999;
+    text-shadow: none;
+    outline: 0;
+}
+
+.modal-body{
+    background: #282828;
+}
+.modal-body-scroll {
+    max-height: 25pc;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.modal-body-main{
+    height: 25pc;
+    padding: 20px;
+    padding-top: 0px;
+}
+
+.modal-body.collection{
+    padding: 0;
+}
+.modal-body-main.collection{
+    height: auto;
+    min-height: 8pc;
+    padding: 0;
+}
+
+
+.edit-loading-error{
+    text-align: center;
+}
+
+.spinner-container.collection{
+    transform: translateY(3pc);
+}
+
+.modal-footer{
+    background: #323232;
+    border-top: #222;
+    padding: 15px 20px;
+    margin-top: 0;
+    border-radius: 0 0 3px 3px;
+}
+
+
+ul.collection-list {
+    list-style: none;
+    padding: 0;
+}
+
+.striped-list-item:nth-of-type(even){
+    background-color: rgba(0,0,0,0.1);
+}
+
+.collection-list-item > a {
+    position: relative;
+    display: block;
+    height: 50px;
+    padding: 0 20px 0 0;
+    font-size: 1pc;
+    line-height: 50px;
+    color: inherit;
+    text-decoration: none;
+    /*text-indent: 70px;*/
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+.collection-list-item > a:hover{
+    background-color: #bf7e22;
+}
+
+.collection-list-item-icon{
+    width: 50px;
+    text-align: center;
+    color: rgba(32, 32, 32, 0.32);
+    background-color: rgba(32, 32, 32, 0.32);
+}
+.collection-list-item-block{
+    display: inline-block;
+}
+
+.collection-list-item-block.text{
+    padding-left: 15px
+}
+
+ label.collection-input{
+    background-color: transparent;
+    border: none
+}
+
+ input.collection-input{
+    background-color: rgba(0,0,0,.15);
+}
+
+.create{
+    margin-top: -16px;
+}
+
+.collection-addon{
+    width: 50px;
+    border-radius: 0px;
+    background-color: rgba(0,0,0,.2);
+}
+
+.create input{
+    height: 50px;
+    font-size: 0.9rem;
+    color: #f0ad4e;
+    background-color: #222;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.btn-create{
+    text-transform: uppercase;
+}
+
+.btn-create{
+    border-color: #ccc;
+    color: #fff;
+    text-shadow: 0 -1px 1px rgba(0,0,0,.4), 0 0 15px rgba(0,0,0,.2);
+    background-color: #4a4a4a;
+    box-shadow: inset 0 1px 0 #696969;
+    transition: background-color .1s;
+}

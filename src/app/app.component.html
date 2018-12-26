@@ -1,3 +1,151 @@
-<h1>
-  {{title}}
-</h1>
+<nav class="nav-bar">
+    <div class="nav-btn-container">
+        <a class="nav-btn" (click)="sidebarToggle()"><i class="fa fa-bars"></i></a>
+        <a [routerLink]="['/dashboard']" class="nav-btn nav-animate-btn"><i class="fa fa-home"></i></a>
+        <a class="nav-btn nav-animate-btn"><i class="fa fa-user-circle"></i></a>
+    </div>
+    <div class="logo">
+        <h3>MOVIE PORTAL</h3>
+    </div>  
+    <div class="float-md-right">
+        <div class="nav-shopping-right float-md-right">
+            <a class="no-link-btn nav-animate-btn" [class.active]="!hideCartlist" (click)="toggleCartlist()"><div class="shopping-btn-container">
+                <i class="fa fa-shopping-cart"></i>
+                <span class="shopping-count"><!--{{cartItems.length || 0}}-->{{ cartState.items.length }}</span>
+            </div>
+            </a>
+        </div>
+        <div class="nav-search-right float-md-right">
+            <search-box></search-box>
+        </div>
+        
+        <!--<div #searchDiv class="nav-search-right float-md-right">
+            <div class="nav-search-container">
+                <div class="search-wrapper" [class.show]="searchExpand">
+                    <input [formControl]="searchTerm" id="search" class="search" placeholder="Search..." (focus)="search()" />
+                    <a (click)="searchToggle()" class="search-btn nav-animate-btn float-md-right"><i class="fa fa-search"></i></a>
+                    <a (click)="searchClear()" [hidden]="!searchExpand" class="search-btn search-clear-btn"><i class="fa fa-times-circle"></i></a>
+                </div>
+                <div class="search-result-holder dark-scrollbar" *ngIf="searchResults.length">
+                    <ul class="search-list">
+                        <a [routerLink]="['/discover/movie/detail', result._id]" *ngFor="let result of searchResults" (click)="searchBlur()">
+                            <li class="search-list-item">
+                                <div class="flexbox">
+                                    <div class="search-list-img-container">
+                                        <div class="search-list-image" [style.background-image]="'url('+result.poster+')'"></div>
+                                    </div>
+                                    <div class="search-list-title">
+                                        <span>{{result.title}}</span><br>
+                                        <span class="search-list-year">{{result.releasedDate || result.fad | date:'y'}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </a>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>-->
+
+        <div class="navigation-icon-container float-md-right" [hidden]="true">
+            <div class="navigation-icon">
+                <a class="no-link-btn nav-animate-btn"><span><i class="fa fa-cog"></i></span></a>
+                <a class="no-link-btn nav-animate-btn"><span><i class="fa fa-envelope-o"></i></span></a>
+                <a class="no-link-btn nav-animate-btn"><span><i class="fa fa-film"></i></span></a>
+                <a class="no-link-btn nav-animate-btn"><span><i class="fa fa-television"></i></span></a>
+            </div>
+        </div>
+    </div>
+    
+</nav>
+<!--<div id="wrapper" [class.toggled]="sidebarShow">-->
+<div id="wrapper" [class.toggled]="!(sidenavState|async).close">
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">               
+                    nicolas
+                    <a href="javascript:void(0);" (click)="sidebarToggle()" class="float-md-right close-btn"><span><i class="fa fa-angle-left"></i></span></a>
+                
+            </li>
+            <li>
+                <a  href="javascript:void(0)"><i class="fa fa-film" aria-hidden="true"> </i> Movie <span class="pull-right down-icon" (click)="mtoggle()"><i class="fa fa-angle-down" [class.fa-rotate-180]="!movtoggle"></i></span></a>
+              
+                <div class="sub-item" [class.collapsed]="movtoggle">
+                    <a [routerLink]="['/discover/movie']" class=""><i class="fa fa-eye" aria-hidden="true"> </i> Explore</a>
+                    <a href="javascript:void(0)" [routerLink]="['/movie/pending']" class=""><i class="fa fa-info" aria-hidden="true"> </i> Pending <span class="pull-right"><span class="info-circle">{{chooseCount}}</span></span></a>
+                    <a href="javascript:void(0)" class=""><i class="fa fa-question" aria-hidden="true"> </i> Unknown <span class="pull-right"><span class="info-circle">254</span></span></a>
+                </div>
+            </li>
+            <li>
+                <a href="javascript:void(0)"><i class="fa fa-television" aria-hidden="true"></i> TV Show <span class="pull-right down-icon" (click)="stoggle()"><i class="fa fa-angle-down"></i></span></a>
+                <div class="sub-item" [class.collapsed]="sertoggle">
+                    <a class=""><i class="fa fa-plus" aria-hidden="true"> </i> Add series</a>
+                    <a class=""><i class="fa fa-cloud-download" aria-hidden="true"> </i> Fetch details</a>
+                </div>
+            </li>
+            <li>
+                <a href="javascript:void(0)"><i class="fa fa-th-list" aria-hidden="true"> </i> Library <span class="pull-right down-icon" (click)="ltoggle()"><i class="fa fa-angle-down" [class.fa-rotate-180]="!libtoggle"></i></span></a>
+                <div class="sub-item" [class.collapsed]="libtoggle">
+                <div class="slide-wrapper">
+                    <a href="javascript:void(0)" class="createlibrary-right" [class.createlibrary-right-slide]="slide" (click)="slideIn();"><i class="fa fa-plus-square-o" aria-hidden="true"> </i> Create new library</a>
+                    <a href="javascript:void(0)" class="createlibrary-left" [class.createlibrary-left-slide]="slide">
+                    <i class="fa fa-angle-double-left" (click)="slideIn();"></i> <input type="text" class="libraryname" [class.onsuccess]="libnamesuccess" [class.onerror]="libnameerror" [(ngModel)]="libname"><button class="btn btn-danger btn-sm" (click)="createnewLibrary()">create</button>
+                    </a>
+                </div>
+                    <a [routerLink]="['/library']" href="javascript:void(0)" class=""><i class="fa fa-list" aria-hidden="true"> </i> View all <span class="pull-right"><span class="info-circle">{{chooseCount}}</span></span></a>
+                </div>
+
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-gratipay" aria-hidden="true"> </i> Features</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-folder" aria-hidden="true"> </i> My Collection</a>
+            </li>
+            <li>
+                <a [routerLink]="['/setting']"><i class="fa fa-sliders" aria-hidden="true"> </i> Setting</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Contact</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+    <router-outlet></router-outlet>
+</div>
+<!--<div class="cart-list-container dark-scrollbar" [class.hide]="( uiState | async ).cartlistOpen">
+    <div class="cart-list-head-container">
+        Total space 1320MB
+        <a class="copy-btn no-link-btn float-md-right" [routerLink]="['/cart']">COPY NOW</a>
+    </div>
+    
+    <ul class="cart-list">
+        
+            <li class="cart-list-item" *ngFor="let item of cartItems; let i = index">
+                <div class="cart-list-progress" [style.width]="item.progress"></div>
+                <div class="flexbox">
+                    <a [routerLink]="['/discover/movie/detail', item._id]">
+                    <div class="search-list-img-container">
+                        <div class="search-list-image" [style.background-image]="'url('+item.posterURL+')'"></div>
+                    </div>
+                    <div class="cart-list-title">
+                        <span>{{item.title}} - {{item.copy?.progress}}</span><br>
+                        <span class="search-list-year">{{item.filesize}}</span>
+                    </div>
+                    </a>
+                    <a (click)="removefromCart(i)"><div class="list-btn-container">
+                        <span class="glyphicon glyphicon-remove-circle"></span>
+                    </div></a>
+                </div>
+            </li>
+        
+    </ul>
+</div>-->
+
+<side-cartlist [cartState]="cartState" [show]="(uiState | async).cartlistOpen" (hidden)="hideCartList()" (action)="cartListActions($event)"></side-cartlist>
+
+<div class="notification-box" [class.show]="notification.show">
+    <div *ngIf="notification.loading" class="spinningCircle spin-sm"></div>
+    <span *ngIf="!notification.loading && notification.show" class="glyphicon glyphicon-info-sign"></span>
+    <span>{{notification.msg}}</span>
+</div>
